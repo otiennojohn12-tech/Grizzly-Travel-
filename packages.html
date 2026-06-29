@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Packages | Grizzly Travel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #111111; --dark: #1a1a1a; --card: #222222;
+      --gold: #f5a623; --gold-dark: #c8841a; --white: #f0ede8; --grey: #999;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--white); font-family: 'Poppins', sans-serif; line-height: 1.6; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 24px;
+      background: rgba(17,17,17,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(245,166,35,0.15);
+    }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold); text-decoration: none; letter-spacing: 1px; }
+    .nav-logo span { color: var(--white); font-style: italic; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: var(--white); text-decoration: none; font-size: 0.85rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+
+    .page-hero {
+      padding: 140px 24px 60px;
+      background:
+        linear-gradient(to bottom, rgba(17,17,17,0.7) 0%, rgba(17,17,17,0.95) 100%),
+        url('https://images.unsplash.com/photo-1504432842672-1a79f78e4084?w=1400&q=80') center/cover no-repeat;
+    }
+    .page-hero p { font-size: 0.75rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+    .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 6vw, 3.5rem); line-height: 1.1; }
+    .page-hero h1 em { font-style: italic; color: var(--gold); }
+
+    .filter-bar {
+      background: var(--dark);
+      padding: 20px 24px;
+      display: flex; gap: 12px; flex-wrap: wrap;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .filter-btn {
+      padding: 8px 20px;
+      background: transparent;
+      border: 1px solid #444;
+      color: var(--grey);
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active { border-color: var(--gold); color: var(--gold); }
+
+    .packages-main { padding: 60px 24px; }
+
+    .packages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 28px;
+    }
+
+    .pkg-card {
+      background: var(--card);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .pkg-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
+
+    .pkg-img {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .pkg-badge {
+      position: absolute; top: 14px; left: 14px;
+      background: var(--gold); color: var(--black);
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; padding: 4px 10px; border-radius: 2px;
+    }
+    .pkg-price {
+      position: absolute; bottom: 14px; right: 14px;
+      background: rgba(17,17,17,0.85);
+      color: var(--gold);
+      font-size: 0.8rem; font-weight: 700;
+      padding: 6px 12px; border-radius: 2px;
+    }
+
+    .pkg-body { padding: 24px; }
+    .pkg-body h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+    .pkg-body p { font-size: 0.82rem; color: var(--grey); margin-bottom: 16px; line-height: 1.6; }
+
+    .pkg-meta { display: flex; gap: 16px; font-size: 0.75rem; color: var(--gold); font-weight: 600; margin-bottom: 16px; flex-wrap: wrap; }
+
+    .pkg-includes { margin-bottom: 20px; }
+    .pkg-includes h4 { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--grey); margin-bottom: 8px; }
+    .pkg-includes ul { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+    .pkg-includes li { font-size: 0.72rem; background: #2a2a2a; padding: 4px 10px; border-radius: 2px; color: var(--white); }
+
+    .pkg-cta {
+      display: block; text-align: center;
+      padding: 12px;
+      background: var(--gold); color: var(--black);
+      font-weight: 700; font-size: 0.8rem; letter-spacing: 1px;
+      text-transform: uppercase; text-decoration: none; border-radius: 2px;
+      transition: background 0.2s;
+    }
+    .pkg-cta:hover { background: var(--gold-dark); }
+
+    /* CTA BANNER */
+    .cta-banner {
+      margin: 0 24px 60px;
+      background: var(--card);
+      border: 1px solid rgba(245,166,35,0.3);
+      border-radius: 4px;
+      padding: 40px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 24px;
+    }
+    .cta-banner h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; }
+    .cta-banner h2 em { font-style: italic; color: var(--gold); }
+    .cta-banner p { font-size: 0.85rem; color: var(--grey); margin-top: 6px; }
+    .btn {
+      display: inline-block; padding: 14px 32px;
+      background: var(--gold); color: var(--black);
+      font-weight: 700; font-size: 0.85rem; letter-spacing: 1.5px;
+      text-transform: uppercase; text-decoration: none; border-radius: 2px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn:hover { background: var(--gold-dark); transform: translateY(-2px); }
+
+    footer {
+      background: #0a0a0a; padding: 48px 24px 24px;
+      border-top: 1px solid #222;
+    }
+    .footer-top { display: flex; flex-wrap: wrap; gap: 40px; margin-bottom: 40px; }
+    .footer-brand { flex: 1 1 220px; }
+    .footer-brand .nav-logo { display: block; margin-bottom: 12px; font-size: 1.6rem; }
+    .footer-brand p { font-size: 0.82rem; color: var(--grey); max-width: 260px; }
+    .footer-col { flex: 1 1 140px; }
+    .footer-col h4 { font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { color: var(--grey); text-decoration: none; font-size: 0.82rem; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--gold); }
+    .footer-bottom { border-top: 1px solid #222; padding-top: 24px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; }
+    .footer-bottom p { font-size: 0.75rem; color: var(--grey); }
+    .social-links { display: flex; gap: 16px; }
+    .social-links a { color: var(--grey); font-size: 0.75rem; text-decoration: none; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; transition: color 0.2s; }
+    .social-links a:hover { color: var(--gold); }
+
+    .wa-float {
+      position: fixed; bottom: 24px; right: 24px; z-index: 200;
+      background: #25d366; color: white; width: 56px; height: 56px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; text-decoration: none;
+      box-shadow: 0 4px 16px rgba(37,211,102,0.4); transition: transform 0.2s;
+    }
+    .wa-float:hover { transform: scale(1.1); }
+
+    @media (max-width: 600px) {
+      .nav-links { gap: 16px; }
+      .nav-links a { font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="index.html">Grizzly<span>Travel</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="packages.html" class="active">Packages</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero">
+    <p>Explore Kenya</p>
+    <h1>Our Tour <em>Packages</em></h1>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active">All</button>
+    <button class="filter-btn">Safari</button>
+    <button class="filter-btn">Cultural</button>
+    <button class="filter-btn">Adventure</button>
+    <button class="filter-btn">Budget</button>
+  </div>
+
+  <section class="packages-main">
+    <div class="packages-grid">
+
+      <!-- PKG 1 -->
+      <div class="pkg-card">
+        <div class="pkg-img" style="background-image:url('https://images.unsplash.com/photo-1516426122078-c23e76319801?w=600&q=80')">
+          <span class="pkg-badge">Best Seller</span>
+          <span class="pkg-price">From KES 45,000</span>
+        </div>
+        <div class="pkg-body">
+          <h3>Maasai Mara Safari — 4 Days</h3>
+          <p>The classic Kenya safari. Witness the Great Migration, track the Big Five, and spend an evening with Maasai warriors around a campfire.</p>
+          <div class="pkg-meta"><span>📅 4 Days / 3 Nights</span><span>👥 2–10 Pax</span></div>
+          <div class="pkg-includes">
+            <h4>Includes</h4>
+            <ul>
+              <li>Game drives</li><li>Accommodation</li><li>Meals</li><li>Park fees</li><li>Maasai village</li>
+            </ul>
+          </div>
+          <a href="https://wa.me/254746404366?text=Hi%20Grizzly%20Travel!%20I'm%20interested%20in%20the%20Maasai%20Mara%20Safari%204-day%20package." class="pkg-cta" target="_blank">Book on WhatsApp</a>
+        </div>
+      </div>
+
+      <!-- PKG 2 -->
+      <div class="pkg-card">
+        <div class="pkg-img" style="background-image:url('https://images.unsplash.com/photo-1535941339077-2dd1c7963098?w=600&q=80')">
+          <span class="pkg-badge">Cultural</span>
+          <span class="pkg-price">From KES 28,000</span>
+        </div>
+        <div class="pkg-body">
+          <h3>Western Kenya Heritage — 3 Days</h3>
+          <p>Lake Victoria sunsets, Kit Mikayi sacred rock, Ndere Island National Park, and the vibrant culture of Kisumu city.</p>
+          <div class="pkg-meta"><span>📅 3 Days / 2 Nights</span><span>👥 2–8 Pax</span></div>
+          <div class="pkg-includes">
+            <h4>Includes</h4>
+            <ul>
+              <li>Transport</li><li>Accommodation</li><li>Cultural tours</li><li>Boat ride</li><li>Guide</li>
+            </ul>
+          </div>
+          <a href="https://wa.me/254746404366?text=Hi%20Grizzly%20Travel!%20I'm%20interested%20in%20the%20Western%20Kenya%20Heritage%203-day%20package." class="pkg-cta" target="_blank">Book on WhatsApp</a>
+        </div>
+      </div>
+
+      <!-- PKG 3 -->
+      <div class="pkg-card">
+        <div class="pkg-img" style="background-image:url('https://images.unsplash.com/photo-1611348586804-61bf6c080437?w=600&q=80')">
+          <span class="pkg-badge">Adventure</span>
+          <span class="pkg-price">From KES 55,000</span>
+        </div>
+        <div class="pkg-body">
+          <h3>Southern Kenya Circuit — 5 Days</h3>
+          <p>Amboseli's elephant herds under Kilimanjaro, the red earth of Tsavo, and the mystery of Chyulu Hills.</p>
+          <div class="pkg-meta"><span>📅 5 Days / 4 Nights</span><span>👥 2–12 Pax</span></div>
+          <div class="pkg-includes">
+            <h4>Includes</h4>
+            <ul>
+              <li>Game drives</li><li>Accommodation</li><li>All meals</li><li>Park fees</li><li>Transfers</li>
+            </ul>
+          </div>
+          <a href="https://wa.me/254746404366?text=Hi%20Grizzly%20Travel!%20I'm%20interested%20in%20the%20Southern%20Kenya%20Circuit%205-day%20package." class="pkg-cta" target="_blank">Book on WhatsApp</a>
+        </div>
+      </div>
+
+      <!-- PKG 4 -->
+      <div class="pkg-card">
+        <div class="pkg-img" style="background-image:url('https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?w=600&q=80')">
+          <span class="pkg-badge">Budget</span>
+          <span class="pkg-price">From KES 18,000</span>
+        </div>
+        <div class="pkg-body">
+          <h3>Nairobi City & Naivasha — 2 Days</h3>
+          <p>Giraffe Centre, Karen Blixen, Nairobi National Park, then Hell's Gate and Lake Naivasha flamingos.</p>
+          <div class="pkg-meta"><span>📅 2 Days / 1 Night</span><span>👥 2–6 Pax</span></div>
+          <div class="pkg-includes">
+            <h4>Includes</h4>
+            <ul>
+              <li>Transport</li><li>Entry fees</li><li>Accommodation</li><li>Breakfast</li>
+            </ul>
+          </div>
+          <a href="https://wa.me/254746404366?text=Hi%20Grizzly%20Travel!%20I'm%20interested%20in%20the%20Nairobi%20%26%20Naivasha%202-day%20package." class="pkg-cta" target="_blank">Book on WhatsApp</a>
+        </div>
+      </div>
+
+      <!-- PKG 5 -->
+      <div class="pkg-card">
+        <div class="pkg-img" style="background-image:url('https://images.unsplash.com/photo-1548574505-5e239809ee19?w=600&q=80')">
+          <span class="pkg-badge">Cultural</span>
+          <span class="pkg-price">From KES 35,000</span>
+        </div>
+        <div class="pkg-body">
+          <h3>Swahili Coast Experience — 4 Days</h3>
+          <p>Mombasa Old Town, Fort Jesus, Lamu dhow rides, and coral reef snorkeling along Kenya's Indian Ocean coast.</p>
+          <div class="pkg-meta"><span>📅 4 Days / 3 Nights</span><span>👥 2–8 Pax</span></div>
+          <div class="pkg-includes">
+            <h4>Includes</h4>
+            <ul>
+              <li>Beach resort</li><li>Dhow cruise</li><li>Snorkeling</li><li>City tour</li><li>Meals</li>
+            </ul>
+          </div>
+          <a href="https://wa.me/254746404366?text=Hi%20Grizzly%20Travel!%20I'm%20interested%20in%20the%20Swahili%20Coast%20Experience%20package." class="pkg-cta" target="_blank">Book on WhatsApp</a>
+        </div>
+      </div>
+
+      <!-- PKG 6 -->
+      <div class="pkg-card">
+        <div class="pkg-img" style="background-image:url('https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=600&q=80')">
+          <span class="pkg-badge">Custom</span>
+          <span class="pkg-price">Custom Quote</span>
+        </div>
+        <div class="pkg-body">
+          <h3>Build Your Own Kenya Tour</h3>
+          <p>Have something specific in mind? We'll build you a bespoke itinerary — any destination, any duration, any group size.</p>
+          <div class="pkg-meta"><span>📅 Your Choice</span><span>👥 Any Size</span></div>
+          <div class="pkg-includes">
+            <h4>Includes</h4>
+            <ul>
+              <li>Full planning</li><li>Custom route</li><li>Local guides</li><li>All logistics</li>
+            </ul>
+          </div>
+          <a href="https://wa.me/254746404366?text=Hi%20Grizzly%20Travel!%20I'd%20like%20a%20custom%20Kenya%20tour%20package." class="pkg-cta" target="_blank">Get Custom Quote</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <div class="cta-banner">
+    <div>
+      <h2>Not sure which package? <em>We'll help.</em></h2>
+      <p>Message us on WhatsApp — describe your dream Kenya trip and we'll build it for you.</p>
+    </div>
+    <a href="https://wa.me/254746404366?text=Hi%20Grizzly%20Travel!%20I%20need%20help%20choosing%20a%20package." class="btn" target="_blank">Chat with Us</a>
+  </div>
+
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="nav-logo" href="index.html">Grizzly<span>Travel</span></a>
+        <p>Kenya cultural & safari experiences. Handcrafted for curious travellers.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="packages.html">Packages</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="https://wa.me/254746404366" target="_blank">WhatsApp Us</a></li>
+          <li><a href="https://instagram.com/choggo22" target="_blank">@choggo22</a></li>
+          <li><a href="https://tiktok.com/@choggo22" target="_blank">TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Grizzly Travel. All rights reserved. Nairobi, Kenya.</p>
+      <div class="social-links">
+        <a href="https://instagram.com/choggo22" target="_blank">Instagram</a>
+        <a href="https://tiktok.com/@choggo22" target="_blank">TikTok</a>
+        <a href="https://wa.me/254746404366" target="_blank">WhatsApp</a>
+      </div>
+    </div>
+  </footer>
+
+  <a class="wa-float" href="https://wa.me/254746404366?text=Hi%20Grizzly%20Travel!%20I'd%20like%20to%20book%20a%20tour." target="_blank">💬</a>
+
+</body>
+</html>
