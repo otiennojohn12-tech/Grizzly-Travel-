@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grizzly Travel — Quotation & Invoice Generator</title>
+<style>
+  :root{
+    --gold:#f5a623;
+    --gold-dim:#caa14d;
+    --black:#0d0d0d;
+    --panel:#161616;
+    --panel-2:#1f1f1f;
+    --line:#2c2c2c;
+    --text:#eaeaea;
+    --muted:#9a9a9a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI',Arial,sans-serif;
+    background:var(--black);
+    color:var(--text);
+  }
+  header{
+    padding:28px 20px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    margin:0;
+    color:var(--gold);
+    letter-spacing:2px;
+    font-size:1.6rem;
+  }
+  header p{margin:6px 0 0;color:var(--muted);font-size:.85rem;}
+
+  .tabs{display:flex;justify-content:center;gap:10px;margin:20px 0;}
+  .tab-btn{
+    background:var(--panel);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:10px 22px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:.9rem;
+    letter-spacing:.5px;
+  }
+  .tab-btn.active{
+    border-color:var(--gold);
+    color:var(--gold);
+    background:var(--panel-2);
+  }
+
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 60px;}
+
+  fieldset{
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:18px;
+    padding:14px 16px 18px;
+  }
+  legend{
+    color:var(--gold);
+    padding:0 8px;
+    font-size:.85rem;
+    letter-spacing:1px;
+    text-transform:uppercase;
+  }
+  label{
+    display:block;
+    font-size:.78rem;
+    color:var(--muted);
+    margin:10px 0 4px;
+  }
+  input, textarea{
+    width:100%;
+    background:var(--panel);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:9px 10px;
+    border-radius:5px;
+    font-size:.92rem;
+  }
+  input:focus, textarea:focus{outline:1px solid var(--gold);}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .row4{display:grid;grid-template-columns:2.2fr 0.8fr 1fr 1fr;gap:8px;}
+  @media(max-width:560px){.row2{grid-template-columns:1fr;} .row4{grid-template-columns:1fr;}}
+
+  .item-row{
+    border-top:1px dashed var(--line);
+    padding-top:10px;
+    margin-top:10px;
+  }
+  .item-row:first-of-type{border-top:none;margin-top:0;padding-top:0;}
+  .remove-btn{
+    background:none;border:1px solid #5a2a2a;color:#e07a7a;
+    border-radius:5px;padding:6px 10px;margin-top:8px;font-size:.75rem;cursor:pointer;
+  }
+  .add-btn, .gen-btn, .print-btn{
+    background:var(--gold);
+    color:#1a1200;
+    border:none;
+    padding:10px 16px;
+    border-radius:6px;
+    font-weight:600;
+    cursor:pointer;
+    font-size:.85rem;
+  }
+  .add-btn{background:transparent;border:1px solid var(--gold);color:var(--gold);margin-top:8px;}
+  .actions{display:flex;gap:12px;justify-content:center;margin:24px 0 8px;flex-wrap:wrap;}
+
+  /* PREVIEW / PRINTABLE DOC */
+  #preview{
+    display:none;
+    background:#fff;
+    color:#111;
+    max-width:760px;
+    margin:30px auto;
+    padding:40px;
+    border-radius:4px;
+  }
+  #preview.show{display:block;}
+  .doc-brand{color:var(--gold-dim);font-size:1.7rem;font-weight:800;margin:0;letter-spacing:1px;}
+  .doc-sub{color:#555;font-size:.78rem;margin:4px 0 0;font-style:italic;}
+  .doc-contact{color:#555;font-size:.72rem;margin:4px 0 14px;border-bottom:3px solid var(--gold);padding-bottom:14px;}
+  .doc-title{font-size:1.3rem;font-weight:800;margin:14px 0 12px;}
+  table.meta{width:100%;border-collapse:collapse;margin-bottom:18px;font-size:.85rem;}
+  table.meta td{border:1px solid #ddd;padding:7px 10px;}
+  table.meta td.lbl{background:#f5f5f5;font-weight:700;width:35%;}
+  .doc-h2{
+    font-size:.95rem;font-weight:800;margin:22px 0 8px;
+    border-bottom:2px solid var(--gold);padding-bottom:4px;
+  }
+  table.items{width:100%;border-collapse:collapse;font-size:.82rem;}
+  table.items th{background:#111;color:#fff;padding:8px 9px;text-align:left;}
+  table.items td{border:1px solid #ddd;padding:7px 9px;}
+  table.items td.num{text-align:right;}
+  table.items tr.total td{background:#f5f5f5;font-weight:800;}
+  .total-amt{color:var(--gold-dim);}
+  ul.doc-list{font-size:.82rem;padding-left:18px;margin:6px 0;}
+  ul.doc-list li{margin-bottom:4px;}
+  .doc-footer{margin-top:26px;font-size:.82rem;color:#555;}
+  .doc-footer .sign{color:var(--gold-dim);font-weight:800;margin-top:4px;}
+
+  @media print{
+    body *{visibility:hidden;}
+    #preview, #preview *{visibility:visible;}
+    #preview{position:absolute;top:0;left:0;width:100%;margin:0;padding:20px;}
+    .no-print{display:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>GRIZZLY TRAVEL</h1>
+  <p>Quotation & Invoice Generator</p>
+</header>
+
+<div class="tabs no-print">
+  <button class="tab-btn active" id="tabQuote" onclick="setMode('quotation')">Quotation</button>
+  <button class="tab-btn" id="tabInvoice" onclick="setMode('invoice')">Invoice</button>
+</div>
+
+<div class="wrap no-print">
+
+  <fieldset>
+    <legend>Document Details</legend>
+    <div class="row2">
+      <div>
+        <label id="lblDocNo">Quotation No.</label>
+        <input id="docNo" placeholder="GT-Q-0001">
+      </div>
+      <div>
+        <label>Date Issued</label>
+        <input id="dateIssued" type="date">
+      </div>
+    </div>
+    <div class="row2">
+      <div>
+        <label id="lblDate2">Valid Until</label>
+        <input id="date2" type="date">
+      </div>
+      <div>
+        <label>Number of Pax</label>
+        <input id="pax" placeholder="e.g. 2">
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Client & Trip</legend>
+    <div class="row2">
+      <div>
+        <label>Client Name</label>
+        <input id="clientName" placeholder="e.g. John Mwangi">
+      </div>
+      <div>
+        <label>Client Contact</label>
+        <input id="clientContact" placeholder="Phone / Email">
+      </div>
+    </div>
+    <div class="row2">
+      <div>
+        <label>Travel Dates</label>
+        <input id="travelDates" placeholder="e.g. 12 – 15 Aug 2026">
+      </div>
+      <div>
+        <label>Package / Destination</label>
+        <input id="packageName" placeholder="e.g. Maasai Mara 3-Day Safari">
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Price Breakdown</legend>
+    <div id="itemsContainer"></div>
+    <button class="add-btn" onclick="addItem()">+ Add Line Item</button>
+  </fieldset>
+
+  <fieldset id="inclusionsBlock">
+    <legend>Inclusions</legend>
+    <textarea id="inclusions" rows="3">Accommodation as specified
+Park entry fees
+Professional driver-guide
+Transport in safari vehicle
+Meals as per itinerary</textarea>
+    <label style="margin-top:14px;">Exclusions</label>
+    <textarea id="exclusions" rows="3">International/domestic flights (unless stated)
+Visa fees
+Travel insurance
+Personal expenses & tips</textarea>
+  </fieldset>
+
+  <fieldset id="paymentBlock">
+    <legend>Payment</legend>
+    <label id="lblPaymentNote">Payment Terms</label>
+    <textarea id="paymentNote" rows="2">50% deposit required to confirm booking. Balance due before travel date. Payment via M-Pesa Till/Bank Transfer.</textarea>
+    <div class="row2" id="invoiceOnlyFields" style="display:none;">
+      <div>
+        <label>Deposit Paid (KES)</label>
+        <input id="depositPaid" placeholder="e.g. 15,000 — 02 Jul 2026">
+      </div>
+      <div>
+        <label>Balance Due Date</label>
+        <input id="balanceDueDate" type="date">
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="actions">
+    <button class="gen-btn" onclick="generate()">Generate Document</button>
+  </div>
+</div>
+
+<div class="actions no-print" id="printRow" style="display:none;">
+  <button class="print-btn" onclick="window.print()">Download / Print PDF</button>
+  <button class="add-btn" onclick="document.getElementById('preview').classList.remove('show'); document.getElementById('printRow').style.display='none';">Back to Edit</button>
+</div>
+
+<div id="preview"></div>
+
+<script>
+let mode = 'quotation';
+let itemCount = 0;
+
+function setMode(m){
+  mode = m;
+  document.getElementById('tabQuote').classList.toggle('active', m==='quotation');
+  document.getElementById('tabInvoice').classList.toggle('active', m==='invoice');
+  document.getElementById('lblDocNo').textContent = m==='quotation' ? 'Quotation No.' : 'Invoice No.';
+  document.getElementById('docNo').placeholder = m==='quotation' ? 'GT-Q-0001' : 'GT-INV-0001';
+  document.getElementById('lblDate2').textContent = m==='quotation' ? 'Valid Until' : 'Due Date';
+  document.getElementById('inclusionsBlock').style.display = m==='quotation' ? 'block' : 'none';
+  document.getElementById('lblPaymentNote').textContent = m==='quotation' ? 'Payment Terms' : 'Payment Instructions';
+  document.getElementById('invoiceOnlyFields').style.display = m==='invoice' ? 'grid' : 'none';
+}
+
+function addItem(desc, qty, unit){
+  itemCount++;
+  const id = 'item'+itemCount;
+  const div = document.createElement('div');
+  div.className = 'item-row';
+  div.id = id;
+  div.innerHTML = `
+    <div class="row4">
+      <div><label>Description</label><input class="it-desc" value="${desc||''}" placeholder="e.g. Accommodation (2 nights)"></div>
+      <div><label>Qty</label><input class="it-qty" value="${qty||''}" placeholder="2"></div>
+      <div><label>Unit Price</label><input class="it-unit" type="number" value="${unit||''}" placeholder="5000"></div>
+      <div><label>Amount</label><input class="it-amount" readonly></div>
+    </div>
+    <button class="remove-btn" onclick="document.getElementById('${id}').remove()">Remove</button>
+  `;
+  document.getElementById('itemsContainer').appendChild(div);
+  div.querySelector('.it-qty').addEventListener('input', () => updateAmount(div));
+  div.querySelector('.it-unit').addEventListener('input', () => updateAmount(div));
+}
+
+function updateAmount(div){
+  const qty = parseFloat(div.querySelector('.it-qty').value) || 0;
+  const unit = parseFloat(div.querySelector('.it-unit').value) || 0;
+  div.querySelector('.it-amount').value = (qty*unit) ? (qty*unit).toLocaleString() : '';
+}
+
+addItem('Accommodation (per night, per room)', '2', '5000');
+addItem('Transport (vehicle hire, fuel, driver-guide)', '1', '12000');
+addItem('Park / Conservancy Fees', '2', '8000');
+
+function fmtDate(val){
+  if(!val) return '[Date]';
+  const d = new Date(val+'T00:00:00');
+  return d.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+}
+
+function generate(){
+  const docNo = document.getElementById('docNo').value || (mode==='quotation' ? 'GT-Q-0001' : 'GT-INV-0001');
+  const dateIssued = fmtDate(document.getElementById('dateIssued').value);
+  const date2 = fmtDate(document.getElementById('date2').value);
+  const pax = document.getElementById('pax').value || '[Number]';
+  const clientName = document.getElementById('clientName').value || '[Client Name]';
+  const clientContact = document.getElementById('clientContact').value || '[Phone / Email]';
+  const travelDates = document.getElementById('travelDates').value || '[Travel Dates]';
+  const packageName = document.getElementById('packageName').value || '[Package Name]';
+
+  const rows = [...document.querySelectorAll('.item-row')].map(div => {
+    const desc = div.querySelector('.it-desc').value || '[Item]';
+    const qty = div.querySelector('.it-qty').value || '-';
+    const unit = parseFloat(div.querySelector('.it-unit').value) || 0;
+    const amount = (parseFloat(div.querySelector('.it-qty').value)||0) * unit;
+    return { desc, qty, unit, amount };
+  });
+  const total = rows.reduce((s,r)=>s+r.amount,0);
+
+  let itemsHtml = rows.map(r => `
+    <tr>
+      <td>${r.desc}</td>
+      <td class="num">${r.qty}</td>
+      <td class="num">${r.unit.toLocaleString()}</td>
+      <td class="num">${r.amount.toLocaleString()}</td>
+    </tr>
+  `).join('');
+
+  let html = `
+    <p class="doc-brand">GRIZZLY TRAVEL</p>
+    <p class="doc-sub">Tour & Travel Services | Nairobi, Kenya</p>
+    <p class="doc-contact">@choggo22 (Instagram & TikTok) &nbsp;|&nbsp; info@grizzlytravel.co.ke &nbsp;|&nbsp; +254 XXX XXX XXX</p>
+    <p class="doc-title">${mode==='quotation' ? 'QUOTATION' : 'INVOICE'}</p>
+    <table class="meta">
+      <tr><td class="lbl">${mode==='quotation' ? 'Quotation No.' : 'Invoice No.'}</td><td>${docNo}</td></tr>
+      <tr><td class="lbl">Date Issued</td><td>${dateIssued}</td></tr>
+      <tr><td class="lbl">${mode==='quotation' ? 'Valid Until' : 'Due Date'}</td><td>${date2}</td></tr>
+      <tr><td class="lbl">${mode==='quotation' ? 'Client Name' : 'Bill To'}</td><td>${clientName}</td></tr>
+      <tr><td class="lbl">Client Contact</td><td>${clientContact}</td></tr>
+      <tr><td class="lbl">Travel Dates</td><td>${travelDates}</td></tr>
+      <tr><td class="lbl">Package / Destination</td><td>${packageName}</td></tr>
+      ${mode==='quotation' ? `<tr><td class="lbl">Number of Pax</td><td>${pax}</td></tr>` : ''}
+    </table>
+
+    <div class="doc-h2">${mode==='quotation' ? 'Price Breakdown' : 'Itemized Charges'}</div>
+    <table class="items">
+      <tr><th>Description</th><th>Qty</th><th>Unit (KES)</th><th>Amount (KES)</th></tr>
+      ${itemsHtml}
+      <tr class="total"><td colspan="3" style="text-align:right;">${mode==='quotation' ? 'Total Price (KES)' : 'Total Due (KES)'}</td><td class="num total-amt">${total.toLocaleString()}</td></tr>
+    </table>
+  `;
+
+  if(mode==='quotation'){
+    const inc = document.getElementById('inclusions').value.split('\n').filter(x=>x.trim());
+    const exc = document.getElementById('exclusions').value.split('\n').filter(x=>x.trim());
+    html += `
+      <div class="doc-h2">Inclusions</div>
+      <ul class="doc-list">${inc.map(i=>`<li>${i}</li>`).join('')}</ul>
+      <div class="doc-h2">Exclusions</div>
+      <ul class="doc-list">${exc.map(i=>`<li>${i}</li>`).join('')}</ul>
+    `;
+  } else {
+    const deposit = document.getElementById('depositPaid').value || '[Amount] — [Date]';
+    const balanceDate = fmtDate(document.getElementById('balanceDueDate').value);
+    const balance = total; // could subtract deposit if numeric, kept simple
+    html += `
+      <div class="doc-h2">Payment Status</div>
+      <table class="meta">
+        <tr><td class="lbl">Deposit Paid</td><td>${deposit}</td></tr>
+        <tr><td class="lbl">Balance Due Date</td><td>${balanceDate}</td></tr>
+      </table>
+    `;
+  }
+
+  const paymentNote = document.getElementById('paymentNote').value;
+  html += `
+    <div class="doc-h2">${mode==='quotation' ? 'Payment Terms' : 'Payment Instructions'}</div>
+    <p style="font-size:.85rem;">${paymentNote}</p>
+    <p style="font-size:.85rem;">M-Pesa Paybill/Till: [Number] &nbsp;|&nbsp; Bank: [Bank Name], Acc. No.: [Number]</p>
+  `;
+
+  if(mode==='quotation'){
+    html += `
+      <div class="doc-h2">Terms & Conditions</div>
+      <ul class="doc-list">
+        <li>This quotation is valid for 14 days from the date of issue.</li>
+        <li>Prices are subject to change based on seasonal rates and availability at time of booking.</li>
+        <li>Booking is only confirmed upon receipt of deposit.</li>
+      </ul>
+    `;
+  }
+
+  html += `
+    <div class="doc-footer">
+      <p>${mode==='quotation' ? 'We look forward to making your safari unforgettable.' : 'Thank you for booking with Grizzly Travel.'}</p>
+      <p class="sign">Grizzly Travel</p>
+    </div>
+  `;
+
+  document.getElementById('preview').innerHTML = html;
+  document.getElementById('preview').classList.add('show');
+  document.getElementById('printRow').style.display = 'flex';
+  document.getElementById('preview').scrollIntoView({ behavior:'smooth' });
+}
+</script>
+
+</body>
+</html>
