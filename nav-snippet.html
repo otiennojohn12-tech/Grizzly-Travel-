@@ -1,0 +1,44 @@
+<!-- ============================================================
+  NAV SNIPPET — replace your existing <nav>...</nav> or <header>...</header>
+  block on every page (index.html, packages.html, about.html, contact.html)
+  with this one. It keeps your existing look (black bar, gold "Grizzly",
+  italic "Travel") but swaps the text-only brand for the logo mark, and
+  adds a "Flights" link.
+
+  Adjust the file paths (logo.svg, packages.html, etc.) if your folder
+  structure differs.
+============================================================ -->
+
+<style>
+  .gt-nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 16px 5%;
+    background:#0a0a0a;
+    border-bottom: 1px solid #262626;
+  }
+  .gt-brand{ display:flex; align-items:center; gap:10px; }
+  .gt-brand img{ width:44px; height:44px; }
+  .gt-brand-text{ font-size:22px; }
+  .gt-brand-text .g{ color:#d4af37; font-weight:700; font-family: Georgia, serif; }
+  .gt-brand-text .t{ color:#f5f5f5; font-style:italic; font-family: Georgia, serif; }
+  .gt-links{ display:flex; gap:28px; }
+  .gt-links a{
+    color:#f5f5f5; text-decoration:none; font-size:13px;
+    letter-spacing:1.5px; text-transform:uppercase; font-family: Arial, sans-serif;
+  }
+  .gt-links a.active, .gt-links a:hover{ color:#d4af37; }
+</style>
+
+<nav class="gt-nav">
+  <a href="index.html" class="gt-brand">
+    <img src="logo.svg" alt="Grizzly Travel logo">
+    <span class="gt-brand-text"><span class="g">Grizzly</span><span class="t">Travel</span></span>
+  </a>
+  <div class="gt-links">
+    <a href="index.html" class="active">Home</a>
+    <a href="packages.html">Packages</a>
+    <a href="flights.html">Flights</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
