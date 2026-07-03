@@ -1,0 +1,125 @@
+<!-- ============================================================
+  ITINERARY CARDS SNIPPET — paste this block into packages.html,
+  inside your existing packages container/grid. Reuses your
+  existing .card / .package-card class names if you have one —
+  otherwise these gt-card classes below will style them standalone.
+============================================================ -->
+
+<style>
+  .gt-grid{
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+    gap:24px; padding: 40px 5%;
+  }
+  .gt-card{
+    background:#141414; border:1px solid #262626; border-radius:10px;
+    overflow:hidden; transition: transform .2s, border-color .2s;
+  }
+  .gt-card:hover{ transform: translateY(-4px); border-color:#d4af37; }
+  .gt-card-img{
+    height:150px; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg,#2a2210,#1a1a1a);
+    color:#d4af37; font-size:12px; letter-spacing:2px; text-transform:uppercase;
+  }
+  .gt-card-body{ padding:18px 20px; }
+  .gt-card-body h3{ color:#f5d67a; font-size:18px; margin:0 0 8px; font-family: Georgia, serif; }
+  .gt-card-body p{ color:#bbb; font-size:14px; margin:0 0 14px; }
+  .gt-btn{
+    display:inline-block; padding:8px 16px; border:1px solid #d4af37;
+    color:#f5d67a; border-radius:5px; font-size:12px; letter-spacing:1px; text-decoration:none;
+  }
+  .gt-btn:hover{ background:#d4af37; color:#0d0d0d; }
+</style>
+
+<div class="gt-grid">
+
+  <div class="gt-card">
+    <div class="gt-card-img">Maasai Mara</div>
+    <div class="gt-card-body">
+      <h3>Maasai Mara National Reserve</h3>
+      <p>Big Five game drives, the Great Migration, hot air balloon safaris, and Maasai cultural visits.</p>
+      <a class="gt-btn" href="flights.html">Enquire</a>
+    </div>
+  </div>
+
+  <div class="gt-card">
+    <div class="gt-card-img">Amboseli</div>
+    <div class="gt-card-body">
+      <h3>Amboseli National Park</h3>
+      <p>Elephant herds against the backdrop of Mount Kilimanjaro, plus Maasai village experiences.</p>
+      <a class="gt-btn" href="flights.html">Enquire</a>
+    </div>
+  </div>
+
+  <div class="gt-card">
+    <div class="gt-card-img">Tsavo East &amp; West</div>
+    <div class="gt-card-body">
+      <h3>Tsavo East &amp; West</h3>
+      <p>Red-earth elephants, Mzima Springs, Shetani lava flows, and vast untouched wilderness.</p>
+      <a class="gt-btn" href="flights.html">Enquire</a>
+    </div>
+  </div>
+
+  <div class="gt-card">
+    <div class="gt-card-img">Lake Circuit</div>
+    <div class="gt-card-body">
+      <h3>Lake Nakuru &amp; Naivasha</h3>
+      <p>Flamingo-lined lakes, rhino sanctuaries, and scenic boat rides through the Rift Valley.</p>
+      <a class="gt-btn" href="flights.html">Enquire</a>
+    </div>
+  </div>
+
+  <div class="gt-card">
+    <div class="gt-card-img">Samburu</div>
+    <div class="gt-card-body">
+      <h3>Samburu National Reserve</h3>
+      <p>Home to the "Samburu Special Five" and vibrant Samburu cultural encounters.</p>
+      <a class="gt-btn" href="flights.html">Enquire</a>
+    </div>
+  </div>
+
+  <div class="gt-card">
+    <div class="gt-card-img">Coast</div>
+    <div class="gt-card-body">
+      <h3>Diani &amp; Mombasa Coast</h3>
+      <p>White-sand beaches, Old Town Mombasa, Swahili heritage, and Indian Ocean dhow cruises.</p>
+      <a class="gt-btn" href="flights.html">Enquire</a>
+    </div>
+  </div>
+
+  <div class="gt-card">
+    <div class="gt-card-img">Swahili Coast</div>
+    <div class="gt-card-body">
+      <h3>Swahili Coast Cultural Trail</h3>
+      <p>Lamu, Malindi, and Mombasa — Swahili architecture, spice trade history, and coastal cuisine.</p>
+      <a class="gt-btn" href="flights.html">Enquire</a>
+    </div>
+  </div>
+
+  <div class="gt-card">
+    <div class="gt-card-img">Luo Heartland</div>
+    <div class="gt-card-body">
+      <h3>Luo Heartland Experience</h3>
+      <p>Kisumu, Lake Victoria, traditional homesteads, and Luo music and cuisine.</p>
+      <a class="gt-btn" href="flights.html">Enquire</a>
+    </div>
+  </div>
+
+  <div class="gt-card">
+    <div class="gt-card-img">Maasai Cultural</div>
+    <div class="gt-card-body">
+      <h3>Maasai Mara Cultural Immersion</h3>
+      <p>Live among Maasai communities — beadwork, warrior traditions, and manyatta homestays.</p>
+      <a class="gt-btn" href="flights.html">Enquire</a>
+    </div>
+  </div>
+
+  <div class="gt-card">
+    <div class="gt-card-img">Central Highlands</div>
+    <div class="gt-card-body">
+      <h3>Central Highlands Heritage</h3>
+      <p>Mount Kenya foothills, Kikuyu traditions, tea plantations, and highland forests.</p>
+      <a class="gt-btn" href="flights.html">Enquire</a>
+    </div>
+  </div>
+
+</div>
