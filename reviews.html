@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reviews — Grizzly Travel</title>
+<style>
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{ background:#0d0d0d; color:#eee; font-family: Arial, sans-serif; }
+
+  /* ---- nav (matches nav-snippet.html) ---- */
+  .gt-nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 16px 5%; background:#0a0a0a; border-bottom: 1px solid #262626;
+  }
+  .gt-brand{ display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .gt-brand img{ width:44px; height:44px; }
+  .gt-brand-text{ font-size:22px; }
+  .gt-brand-text .g{ color:#d4af37; font-weight:700; font-family: Georgia, serif; }
+  .gt-brand-text .t{ color:#f5f5f5; font-style:italic; font-family: Georgia, serif; }
+  .gt-links{ display:flex; gap:28px; }
+  .gt-links a{
+    color:#f5f5f5; text-decoration:none; font-size:13px;
+    letter-spacing:1.5px; text-transform:uppercase;
+  }
+  .gt-links a.active, .gt-links a:hover{ color:#d4af37; }
+
+  /* ---- hero ---- */
+  .rv-hero{ padding: 60px 5% 20px; text-align:center; }
+  .rv-hero h1{ font-family: Georgia, serif; color:#f5d67a; font-size:34px; margin-bottom:10px; }
+  .rv-hero p{ color:#aaa; font-size:15px; }
+
+  .rv-summary{
+    display:flex; justify-content:center; align-items:center; gap:14px;
+    margin: 20px auto 10px;
+  }
+  .rv-summary .score{ font-size:42px; color:#f5d67a; font-family: Georgia, serif; font-weight:700; }
+  .rv-summary .stars{ color:#d4af37; font-size:22px; letter-spacing:3px; }
+  .rv-summary .count{ color:#888; font-size:13px; }
+
+  /* ---- review cards ---- */
+  .rv-grid{
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+    gap:22px; padding: 40px 5%;
+  }
+  .rv-card{
+    background:#141414; border:1px solid #262626; border-radius:10px; padding:22px;
+  }
+  .rv-card .stars{ color:#d4af37; font-size:15px; margin-bottom:10px; }
+  .rv-card p.text{ color:#ccc; font-size:14px; margin-bottom:14px; font-style:italic; }
+  .rv-card .who{ display:flex; justify-content:space-between; color:#888; font-size:12px; }
+  .rv-card .who .name{ color:#f5d67a; font-weight:bold; }
+
+  /* ---- leave a review form ---- */
+  .rv-form{
+    max-width: 560px; margin: 20px auto 80px;
+    background:#141414; border:1px solid #262626; border-radius:12px; padding:34px;
+  }
+  .rv-form h2{ font-family: Georgia, serif; color:#f5d67a; font-size:22px; margin-bottom:20px; text-align:center; }
+  .row{ display:flex; gap:16px; flex-wrap:wrap; margin-bottom:18px; }
+  .field{ flex:1; min-width:200px; }
+  label{ display:block; font-size:13px; color:#f5d67a; margin-bottom:6px; letter-spacing:1px; }
+  input, select, textarea{
+    width:100%; padding:11px 12px; background:#0d0d0d; border:1px solid #333;
+    border-radius:6px; color:#eee; font-size:14px; font-family:inherit;
+  }
+  textarea{ resize:vertical; min-height:90px; }
+  input:focus, select:focus, textarea:focus{ outline:none; border-color:#d4af37; }
+  .star-select{ display:flex; gap:8px; font-size:26px; cursor:pointer; }
+  .star-select span{ color:#444; transition:color .15s; }
+  .star-select span.active{ color:#d4af37; }
+  .submit-btn{
+    width:100%; padding:14px; background:#d4af37; color:#0d0d0d; border:none;
+    border-radius:6px; font-weight:700; letter-spacing:2px; font-size:14px;
+    cursor:pointer; margin-top:6px; text-transform:uppercase;
+  }
+  .submit-btn:hover{ background:#f5d67a; }
+
+  footer{ text-align:center; padding:30px 5%; background:#0a0a0a; color:#888; font-size:13px; }
+</style>
+</head>
+<body>
+
+<nav class="gt-nav">
+  <a href="index.html" class="gt-brand">
+    <img src="logo.svg" alt="Grizzly Travel logo">
+    <span class="gt-brand-text"><span class="g">Grizzly</span><span class="t">Travel</span></span>
+  </a>
+  <div class="gt-links">
+    <a href="index.html">Home</a>
+    <a href="packages.html">Packages</a>
+    <a href="flights.html">Flights</a>
+    <a href="reviews.html" class="active">Reviews</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<div class="rv-hero">
+  <h1>What Our Travelers Say</h1>
+  <p>Real experiences from clients across Kenya's safari and cultural circuits</p>
+  <div class="rv-summary">
+    <div class="score">4.9</div>
+    <div>
+      <div class="stars">★★★★★</div>
+      <div class="count">Based on client reviews</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+  SAMPLE REVIEWS — replace with your real client testimonials.
+  Duplicate a .rv-card block for each new review.
+============================================================ -->
+<div class="rv-grid">
+
+  <div class="rv-card">
+    <div class="stars">★★★★★</div>
+    <p class="text">"Our Maasai Mara trip was flawless from pickup to drop-off. The itinerary was well planned and the guide knew every corner of the park."</p>
+    <div class="who"><span class="name">Wanjiru K.</span><span>Nairobi</span></div>
+  </div>
+
+  <div class="rv-card">
+    <div class="stars">★★★★★</div>
+    <p class="text">"Booked our coast getaway through Grizzly Travel and everything was handled professionally, from flights to hotel transfers."</p>
+    <div class="who"><span class="name">David O.</span><span>Kisumu</span></div>
+  </div>
+
+  <div class="rv-card">
+    <div class="stars">★★★★☆</div>
+    <p class="text">"Great cultural immersion package in the Luo Heartland. Would have loved a bit more time at Lake Victoria, but overall a wonderful trip."</p>
+    <div class="who"><span class="name">Amina S.</span><span>Mombasa</span></div>
+  </div>
+
+</div>
+
+<!-- ============================================================
+  LEAVE A REVIEW FORM — sends the review to your WhatsApp so you
+  can read it and manually add it to the cards above.
+============================================================ -->
+<form class="rv-form" id="reviewForm">
+  <h2>Leave a Review</h2>
+
+  <div class="row">
+    <div class="field">
+      <label>Your Name</label>
+      <input type="text" id="revName" placeholder="Full name" required>
+    </div>
+    <div class="field">
+      <label>Location</label>
+      <input type="text" id="revLocation" placeholder="e.g. Nairobi">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label>Trip / Package</label>
+      <input type="text" id="revTrip" placeholder="e.g. Maasai Mara Safari">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label>Rating</label>
+      <div class="star-select" id="starSelect">
+        <span data-val="1">★</span>
+        <span data-val="2">★</span>
+        <span data-val="3">★</span>
+        <span data-val="4">★</span>
+        <span data-val="5">★</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label>Your Review</label>
+      <textarea id="revText" placeholder="Tell us about your experience..." required></textarea>
+    </div>
+  </div>
+
+  <button type="submit" class="submit-btn">Submit Review via WhatsApp</button>
+</form>
+
+<footer>&copy; 2026 Grizzly Travel &middot; Kenya Safari &amp; Cultural Tourism</footer>
+
+<script>
+  let rating = 0;
+  const stars = document.querySelectorAll('#starSelect span');
+  stars.forEach(star => {
+    star.addEventListener('click', () => {
+      rating = parseInt(star.getAttribute('data-val'));
+      stars.forEach(s => {
+        s.classList.toggle('active', parseInt(s.getAttribute('data-val')) <= rating);
+      });
+    });
+  });
+
+  document.getElementById('reviewForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const name = document.getElementById('revName').value;
+    const location = document.getElementById('revLocation').value;
+    const trip = document.getElementById('revTrip').value;
+    const text = document.getElementById('revText').value;
+
+    let msg = `New review for Grizzly Travel:\n\n`;
+    msg += `Name: ${name}\n`;
+    if(location){ msg += `Location: ${location}\n`; }
+    if(trip){ msg += `Trip: ${trip}\n`; }
+    msg += `Rating: ${rating || "Not selected"} / 5\n`;
+    msg += `Review: ${text}`;
+
+    const phone = "254XXXXXXXXX"; // <-- replace with your real WhatsApp number
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+  });
+</script>
+
+</body>
+</html>
